@@ -27,6 +27,7 @@ const observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
         if(mutation.type === 'childList'){
             const completeBtns = document.querySelectorAll('.task input');
+            const taskContent = document.querySelectorAll('.task p');
             const deleteBtns = document.querySelectorAll('.task-delete-btn');
             if(completeBtns.length != 0){
                 completeBtns.forEach(button=>{
@@ -36,6 +37,11 @@ const observer = new MutationObserver(function(mutations) {
             if(deleteBtns.length != 0){
                 deleteBtns.forEach(button=>{
                     button.addEventListener('click', deleteTask);
+                });
+            }
+            if(taskContent.length != 0){
+                taskContent.forEach(text=>{
+                    text.addEventListener('click', completeTask);
                 });
             }
         }
@@ -119,10 +125,12 @@ function displayTasks(taskList){
 }
 
 function completeTask(){
-    const task = this.parentElement;
-    const taskContent = this.parentElement.querySelector('p').innerHTML;
-    let completed;
+    // const task = this.parentElement;
+    const task = this.parentElement.parentElement;
 
+    const taskContent = task.querySelector('p').innerHTML;
+    let completed;
+    
     if(this.checked){
         task.classList.add('complete');
         completed = true;
@@ -130,6 +138,7 @@ function completeTask(){
         task.classList.remove('complete');
         completed =  false;
     }
+   
     let status = completed ? 'complete' : 'incomplete';
     
     // update array & local storage
@@ -174,7 +183,6 @@ function showCount(){
 function displayActiveTasks(){
     const activeTaskList = JSON.parse(localStorage.getItem('tasks')).filter(task=>task.status == 'incomplete');
     displayTasks(activeTaskList);
-    console.log(this);
     // add active classlist
     toggleActiveSection('active');
 }
@@ -232,7 +240,6 @@ function clearCompletedTasks(){
 
 function toggleActiveSection(title){
     const titles = document.querySelectorAll('.toggle-bar p');
-    console.log(titles);
     titles.forEach(element=>{
         if(element.innerHTML.toLowerCase() !== title.toLowerCase()){
             element.classList.remove('active-section');
