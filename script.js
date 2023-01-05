@@ -13,6 +13,27 @@ submit.addEventListener('click', ()=>{
     }
 });
 
+const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        if(mutation.type === 'childList'){
+            const completeBtns = document.querySelectorAll('.task>input');
+            const deleteBtns = document.querySelectorAll('.task-delete-btn');
+            if(completeBtns.length != 0){
+                completeBtns.forEach(button=>{
+                    button.addEventListener('click', completeTask);
+                });
+            }
+            if(deleteBtns.length != 0){
+                deleteBtns.forEach(button=>{
+                    button.addEventListener('click', deleteTask);
+                });
+            }
+        }
+    });
+});
+observer.observe(document.querySelector('.task-list'), { childList: true });
+
+
 // check for invalid input 
 // if valid return true;
 function validateInput(value) {
@@ -27,10 +48,13 @@ let tasks = JSON.parse(localStorage.getItem('tasks'));
 if (!tasks) {
   tasks = [];
 }
+
 //add to array & add array to the local storage
 function addTask(task){ 
-    tasks.push(task);
-    console.log(tasks);
+    tasks.push({
+        "content" : task,
+        "status" : 'incomplete'
+    });
     localStorage.setItem('tasks', JSON.stringify(tasks));
     displayTasks();
 }
@@ -38,30 +62,30 @@ displayTasks();
 
 function displayTasks(){
     const taskList  =   JSON.parse(localStorage.getItem('tasks'));
-    addItemsToHTML(taskList);
-}
-
-
-function addItemsToHTML(items) {
-
     const container = document.querySelector('.task-list');
-    console.log('adding to', container);
+   
     // Clear the container element
     container.innerHTML = '';
-    if(!items){
+
+    if(!taskList){
         return;
     }
-    for (const item of items) {
+    for (const task of taskList) {
         // Create a div element for the item
         const taskDiv = document.createElement('div');
         taskDiv.classList.add('task');
+
         // add checkbox
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
+        checkbox.checked = task.status == 'complete';
+        if(checkbox.checked){
+            taskDiv.classList.add('complete');
+        }
 
         // add content
         const taskContent = document.createElement('p');
-        taskContent.innerHTML = item;
+        taskContent.innerHTML = task.content;
 
         // add deletebtn
         const deleteBtn = document.createElement('div');
@@ -73,4 +97,47 @@ function addItemsToHTML(items) {
         // Append the div to the container element
         container.appendChild(taskDiv);
     }
-  }
+}
+
+function completeTask(){
+    const task = this.parentElement;
+    const taskContent = this.parentElement.querySelector('p').innerHTML;
+    let completed;
+    if(this.checked){
+        console.log(task); 
+        task.classList.add('complete');
+        completed = true;
+    }else{
+        task.classList.remove('complete');
+        completed =  false;
+    }
+    let status = completed ? 'complete' : 'incomnplete';
+    // JSON.parse(localStorage.getItem('tasks')).forEach(task=>{
+    //     if(task.content == taskContent){
+    //         task.status = status;
+    //     }
+    // });
+    tasks.forEach(task=>{
+        if(task.content == taskContent){
+            console.log(task.content, task.status);
+            task.status = status;
+        }
+    });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function deleteTask(){
+    const taskDiv = this.parentElement;
+    const taskContent = taskDiv.querySelector('p').innerHTML;
+    
+    // remove clicked tasks(this removes duplicates too)
+    tasks = tasks.filter(task => task != taskContent);
+
+    // update local storage
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    if(tasks.length == 0){
+        localStorage.clear();
+    }
+    // update html
+    displayTasks();
+}
