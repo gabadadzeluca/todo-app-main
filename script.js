@@ -19,7 +19,7 @@ submit.addEventListener('click', ()=>{
         }
     }
     //reset input
-    // submit.checked = false;
+    submit.checked = false;
     input.value = '';
 });
 
@@ -27,7 +27,6 @@ const observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
         if(mutation.type === 'childList'){
             const completeBtns = document.querySelectorAll('.task input');
-            const taskContent = document.querySelectorAll('.task p');
             const deleteBtns = document.querySelectorAll('.task-delete-btn');
             if(completeBtns.length != 0){
                 completeBtns.forEach(button=>{
@@ -39,16 +38,10 @@ const observer = new MutationObserver(function(mutations) {
                     button.addEventListener('click', deleteTask);
                 });
             }
-            if(taskContent.length != 0){
-                taskContent.forEach(text=>{
-                    text.addEventListener('click', completeTask);
-                });
-            }
         }
     });
 });
 observer.observe(document.querySelector('.task-list'), { childList: true });
-
 
 // check for invalid input 
 // if valid return true;
@@ -59,7 +52,6 @@ function validateInput(value) {
             return true;
         }
 }
-
 
 //add to array & add array to the local storage
 function addTask(task){ 
@@ -189,14 +181,13 @@ function displayActiveTasks(){
 
 function displayCompletedTasks(){
     const completedTasks = JSON.parse(localStorage.getItem('tasks')).filter(task=>task.status == 'complete');
-    // const completedTasks = tasks;
     displayTasks(completedTasks);
     // display a text if there're no completed tasks
     if(completedTasks.length == 0){
         const container = document.querySelector('.task-list');
         const noTasksText = document.createElement('div');
         noTasksText.classList.add('no-tasks-text');
-        noTasksText.innerText = "No completed tasks yet.";
+        noTasksText.innerText = "Completed tasks section is empty now.";
         container.appendChild(noTasksText);
     }
     toggleActiveSection('completed');
@@ -235,6 +226,7 @@ function clearCompletedTasks(){
     localStorage.setItem("tasks", JSON.stringify(tasks));
     // display updated tasks
     displayTasks(tasks);
+    
 }
 
 
@@ -247,5 +239,13 @@ function toggleActiveSection(title){
             element.classList.add('active-section')
         }
     });
-    
 }
+
+const modeBtn = document.querySelector('.mode-toggle-btn');
+modeBtn.addEventListener('click', toggleMode);
+
+function toggleMode(){
+    this.classList.toggle("night-mode");
+    let nightMode = this.classList.contains('night-mode')? true : false;
+    document.querySelector('html').classList.toggle('night-mode');
+}  
