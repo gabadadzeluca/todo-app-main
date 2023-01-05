@@ -93,24 +93,24 @@ input[type="checkbox"]:checked:before{
     background-size: 0.8rem;
 }
 
-.task-list{
-    input[type="checkbox"]:hover{
-        border: none;
-        background:linear-gradient(135deg, #55DDFF 0%, #C058F3 100%);
-    }
-    input[type="checkbox"]:hover::before{
-        position: absolute;
-        content: '';
-        width: 1.9rem;
-        height: 1.9rem;
-        background-color: var(--element-color);
-        background-repeat: no-repeat;
-        background-position: center;
-        border-radius: inherit;
-        left: 0.08rem;
-        top: 0.04rem
-    }
-}
+// .task-list{
+//     input[type="checkbox"]:hover{
+//         border: none;
+//         background:linear-gradient(135deg, #55DDFF 0%, #C058F3 100%);
+//     }
+//     input[type="checkbox"]:hover::before{
+//         position: absolute;
+//         content: '';
+//         width: 1.9rem;
+//         height: 1.9rem;
+//         background-color: var(--element-color);
+//         background-repeat: no-repeat;
+//         background-position: center;
+//         border-radius: inherit;
+//         left: 0.08rem;
+//         top: 0.04rem
+//     }
+// }
 //style textarea
 input[type="textarea"]{
     background-color: transparent;
