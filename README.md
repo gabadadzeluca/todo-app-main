@@ -33,8 +33,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [GitHub]()
-- Live Site URL: [LiveURL]()
+- Solution URL: [GitHub](https://github.com/gabadadzeluca/todo-app-main)
+- Live Site URL: [LiveURL](https://gabadadzeluca.github.io/todo-app-main/)
 
 ## My process
 
