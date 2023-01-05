@@ -18,6 +18,9 @@ submit.addEventListener('click', ()=>{
             addTask(task);
         }
     }
+    //reset input
+    submit.checked = false;
+    input.value = '';
 });
 
 const observer = new MutationObserver(function(mutations) {
