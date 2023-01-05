@@ -51,6 +51,12 @@ if (!tasks) {
 
 //add to array & add array to the local storage
 function addTask(task){ 
+    // check if task is already present
+    if(tasks.some(str => str.content == task.trim())){
+        alert('task already present');
+        return;
+    };
+    //add to array & local storage
     tasks.push({
         "content" : task,
         "status" : 'incomplete'
@@ -58,6 +64,7 @@ function addTask(task){
     localStorage.setItem('tasks', JSON.stringify(tasks));
     displayTasks();
 }
+// display tasks after loading
 displayTasks();
 
 function displayTasks(){
@@ -103,8 +110,8 @@ function completeTask(){
     const task = this.parentElement;
     const taskContent = this.parentElement.querySelector('p').innerHTML;
     let completed;
+
     if(this.checked){
-        console.log(task); 
         task.classList.add('complete');
         completed = true;
     }else{
@@ -112,13 +119,10 @@ function completeTask(){
         completed =  false;
     }
     let status = completed ? 'complete' : 'incomnplete';
-    // JSON.parse(localStorage.getItem('tasks')).forEach(task=>{
-    //     if(task.content == taskContent){
-    //         task.status = status;
-    //     }
-    // });
+    
+    // update array & local storage
     tasks.forEach(task=>{
-        if(task.content == taskContent){
+        if(task.content === taskContent){
             console.log(task.content, task.status);
             task.status = status;
         }
@@ -131,8 +135,7 @@ function deleteTask(){
     const taskContent = taskDiv.querySelector('p').innerHTML;
     
     // remove clicked tasks(this removes duplicates too)
-    tasks = tasks.filter(task => task != taskContent);
-
+    tasks = tasks.filter(task => task.content != taskContent);
     // update local storage
     localStorage.setItem('tasks', JSON.stringify(tasks));
     if(tasks.length == 0){
