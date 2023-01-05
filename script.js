@@ -129,7 +129,7 @@ function completeTask(){
     });
     localStorage.setItem('tasks', JSON.stringify(tasks));
     
-    displayTasks();
+    showCount();
 }
 
 function deleteTask(){
@@ -145,6 +145,7 @@ function deleteTask(){
     }
     // update html
     displayTasks();
+    showCount();
 }
 
 
@@ -158,7 +159,7 @@ function showCount(){
         count++;
         console.log(count);
     });
-    console.log(count);
+    console.log(tasks);
     // display count
     taskCounterSpan.innerHTML = count;
 } 
