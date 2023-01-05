@@ -1,18 +1,15 @@
 "use strict";
 
+
 let tasks = JSON.parse(localStorage.getItem('tasks'));
 if (!tasks) {
   tasks = [];
 }
 
-
 const input = document.querySelector('.new-task>input[type="textarea"]');
 const submit = document.querySelector('.new-task>input[type="checkbox"]');
 
 
-
-const taskList  =  JSON.parse(localStorage.getItem('tasks'));
-const container = document.querySelector('.task-list');
 
 submit.addEventListener('click', ()=>{
     if(submit.checked){
@@ -68,13 +65,14 @@ function addTask(task){
         "status" : 'incomplete'
     });
     localStorage.setItem('tasks', JSON.stringify(tasks));
-    displayTasks();
+    displayTasks(JSON.parse(localStorage.getItem('tasks')));
 }
 // display tasks after loading
-displayTasks();
+displayTasks(JSON.parse(localStorage.getItem('tasks')));
+
 showCount();
-function displayTasks(){
-    const taskList  =  JSON.parse(localStorage.getItem('tasks'));
+function displayTasks(taskList){
+    // const taskList  =  JSON.parse(localStorage.getItem('tasks'));
     const container = document.querySelector('.task-list');
    
     // Clear the container element
@@ -150,7 +148,7 @@ function deleteTask(){
         localStorage.clear();
     }
     // update html
-    displayTasks();
+    displayTasks(JSON.parse(localStorage.getItem('tasks')));
     showCount();
 }
 
@@ -168,7 +166,48 @@ function showCount(){
 
 // display active tasks
 function displayActiveTasks(){
-    const taskList  =  JSON.parse(localStorage.getItem('tasks'));
-    const container = document.querySelector('.task-list');
+    const activeTaskList = JSON.parse(localStorage.getItem('tasks')).filter(task=>task.status == 'incomplete');
+    displayTasks(activeTaskList);
 }
+
+function displayCompletedTasks(){
+    const completedTasks = JSON.parse(localStorage.getItem('tasks')).filter(task=>task.status == 'complete');
+    displayTasks(completedTasks);
+
+}
+
+function displayAllTasks(){
+    displayTasks(JSON.parse(localStorage.getItem("tasks")));
+}
+
+// navigation btns
+const allTasksBtns = (document.querySelectorAll('.all'));
+const activeTasksBtns = document.querySelectorAll('.active');
+const completedTasksBtns = document.querySelectorAll('.completed');
+
+// clears completed tasks
+const clearCompletedBtn = document.querySelector('.clear-completed-btn');
+
+clearCompletedBtn.addEventListener('click', clearCompletedTasks);
+
+allTasksBtns.forEach(btn=>{
+    btn.addEventListener('click', displayAllTasks);
+});
+
+activeTasksBtns.forEach(btn=>{
+    btn.addEventListener('click', displayActiveTasks);
+});
+
+completedTasksBtns.forEach(btn=>{
+    btn.addEventListener('click', displayCompletedTasks);
+});
+
+function clearCompletedTasks(){
+    // remove all completed tasks;
+    tasks = tasks.filter(task => task.status != 'complete');
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    // display updated tasks
+    displayTasks(tasks);
+}
+
 
