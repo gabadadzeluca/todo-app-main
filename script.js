@@ -174,6 +174,9 @@ function showCount(){
 function displayActiveTasks(){
     const activeTaskList = JSON.parse(localStorage.getItem('tasks')).filter(task=>task.status == 'incomplete');
     displayTasks(activeTaskList);
+    console.log(this);
+    // add active classlist
+    toggleActiveSection('active');
 }
 
 function displayCompletedTasks(){
@@ -185,14 +188,15 @@ function displayCompletedTasks(){
         const container = document.querySelector('.task-list');
         const noTasksText = document.createElement('div');
         noTasksText.classList.add('no-tasks-text');
-        noTasksText.innerText = "No completed tasks yet";
+        noTasksText.innerText = "No completed tasks yet.";
         container.appendChild(noTasksText);
     }
-
+    toggleActiveSection('completed');
 }
 
 function displayAllTasks(){
     displayTasks(JSON.parse(localStorage.getItem("tasks")));
+    toggleActiveSection('all');
 }
 
 // navigation btns
@@ -226,3 +230,15 @@ function clearCompletedTasks(){
 }
 
 
+function toggleActiveSection(title){
+    const titles = document.querySelectorAll('.toggle-bar p');
+    console.log(titles);
+    titles.forEach(element=>{
+        if(element.innerHTML.toLowerCase() !== title.toLowerCase()){
+            element.classList.remove('active-section');
+        }else{
+            element.classList.add('active-section')
+        }
+    });
+    
+}
