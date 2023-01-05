@@ -19,14 +19,14 @@ submit.addEventListener('click', ()=>{
         }
     }
     //reset input
-    submit.checked = false;
+    // submit.checked = false;
     input.value = '';
 });
 
 const observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
         if(mutation.type === 'childList'){
-            const completeBtns = document.querySelectorAll('.task>input');
+            const completeBtns = document.querySelectorAll('.task input');
             const deleteBtns = document.querySelectorAll('.task-delete-btn');
             if(completeBtns.length != 0){
                 completeBtns.forEach(button=>{
@@ -89,6 +89,8 @@ function displayTasks(taskList){
         taskDiv.classList.add('task');
 
         // add checkbox
+        const checkboxAndContent = document.createElement('div');
+        checkboxAndContent.classList.add('checkbox-and-content')
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.checked = task.status == 'complete';
@@ -99,12 +101,15 @@ function displayTasks(taskList){
         // add content
         const taskContent = document.createElement('p');
         taskContent.innerHTML = task.content;
+        
+        
+        checkboxAndContent.append(checkbox,taskContent);
 
         // add deletebtn
         const deleteBtn = document.createElement('div');
         deleteBtn.classList.add('task-delete-btn');
         
-        taskDiv.append(checkbox,taskContent,deleteBtn);
+        taskDiv.append(checkboxAndContent,deleteBtn);
 
     
         // Append the div to the container element
@@ -134,7 +139,6 @@ function completeTask(){
         }
     });
     localStorage.setItem('tasks', JSON.stringify(tasks));
-    
     showCount();
 }
 
@@ -174,6 +178,7 @@ function displayActiveTasks(){
 
 function displayCompletedTasks(){
     const completedTasks = JSON.parse(localStorage.getItem('tasks')).filter(task=>task.status == 'complete');
+    // const completedTasks = tasks;
     displayTasks(completedTasks);
     // display a text if there're no completed tasks
     if(completedTasks.length == 0){
