@@ -10,18 +10,41 @@
 
 </head>
 <body>
+  <div class="wrapper">
+    <header>
+      <h2>Todo</h2>
+      <div class="mode-toggle-btn"></div>
+    </header>
+    <main>
+      <div class="new-task">
+        <input type="checkbox">
+        <input type="textarea" placeholder="Create a new todo..." maxlength="40">
+      </div>
+      <!-- div for added tasks -->
+      <div class="task-list"></div>
 
-  Todo
+      <div class="list-footer">
+        <p>
+          <span class="num-items"></span> items left
+        </p>
+        <div class="toggle-bar desktop">
+          <p class="all active-section">All</p>
+          <p class="active">Active</p>
+          <p class="completed">Completed</p>
+        </div>
 
-  <!-- Add dynamic number --> items left
-
-  All
-  Active 
-  Completed
-
-  Clear Completed
-
-  Drag and drop to reorder list
-
- 
+        <p class="clear-completed-btn">
+          Clear Completed
+        </p>
+      </div>
+      <div class="toggle-bar mobile">
+        <p class="all active-section">All</p>
+        <p class="active">Active</p>
+        <p class="completed">Completed</p>
+      </div>
+    </main>
+    
+    <footer>Drag and drop to reorder list</footer>
+  </div>
+ <script src="./script.js"></script>
 </html>
