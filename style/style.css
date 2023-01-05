@@ -140,6 +140,7 @@ input[type=textarea]:focus {
   min-width: 32.7rem;
   width: 50%;
   height: 100vw;
+  height: auto;
   font-weight: var(--medium);
 }
 .wrapper main, .wrapper header, .wrapper footer {
@@ -280,6 +281,7 @@ input[type=textarea]:focus {
 footer {
   width: 100%;
   display: inline-flex;
+  display: none;
   justify-content: center;
   align-items: center;
   height: 10rem;
@@ -301,6 +303,12 @@ footer {
 }
 
 @media screen and (min-width: 800px) {
+  .mobile {
+    display: none;
+  }
+  .desktop {
+    display: inline-flex;
+  }
   body {
     background-image: var(--bg-img-desktop);
     font-size: 1.8rem;
@@ -348,6 +356,13 @@ footer {
   }
   .list-footer {
     height: 5rem;
+    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+  }
+  .list-footer * {
+    margin-top: 0;
+    margin-bottom: 0;
   }
   .task .task-delete-btn {
     width: 2.4rem;
