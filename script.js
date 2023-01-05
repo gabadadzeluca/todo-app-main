@@ -1,8 +1,18 @@
 "use strict";
 
+let tasks = JSON.parse(localStorage.getItem('tasks'));
+if (!tasks) {
+  tasks = [];
+}
+
 
 const input = document.querySelector('.new-task>input[type="textarea"]');
 const submit = document.querySelector('.new-task>input[type="checkbox"]');
+
+
+
+const taskList  =  JSON.parse(localStorage.getItem('tasks'));
+const container = document.querySelector('.task-list');
 
 submit.addEventListener('click', ()=>{
     if(submit.checked){
@@ -44,10 +54,6 @@ function validateInput(value) {
         }
 }
 
-let tasks = JSON.parse(localStorage.getItem('tasks'));
-if (!tasks) {
-  tasks = [];
-}
 
 //add to array & add array to the local storage
 function addTask(task){ 
@@ -68,7 +74,7 @@ function addTask(task){
 displayTasks();
 showCount();
 function displayTasks(){
-    const taskList  =   JSON.parse(localStorage.getItem('tasks'));
+    const taskList  =  JSON.parse(localStorage.getItem('tasks'));
     const container = document.querySelector('.task-list');
    
     // Clear the container element
@@ -148,8 +154,6 @@ function deleteTask(){
     showCount();
 }
 
-
-
 // update task count
 function showCount(){
     const taskCounterSpan = document.querySelector('.num-items');
@@ -157,9 +161,14 @@ function showCount(){
     let count = 0;
     tasks.filter(task=> task.status === 'incomplete').forEach(task =>{
         count++;
-        console.log(count);
     });
-    console.log(tasks);
     // display count
     taskCounterSpan.innerHTML = count;
-} 
+}
+
+// display active tasks
+function displayActiveTasks(){
+    const taskList  =  JSON.parse(localStorage.getItem('tasks'));
+    const container = document.querySelector('.task-list');
+}
+
