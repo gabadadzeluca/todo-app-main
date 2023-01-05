@@ -66,7 +66,7 @@ function addTask(task){
 }
 // display tasks after loading
 displayTasks();
-
+showCount();
 function displayTasks(){
     const taskList  =   JSON.parse(localStorage.getItem('tasks'));
     const container = document.querySelector('.task-list');
@@ -104,6 +104,7 @@ function displayTasks(){
         // Append the div to the container element
         container.appendChild(taskDiv);
     }
+    showCount();
 }
 
 function completeTask(){
@@ -118,16 +119,17 @@ function completeTask(){
         task.classList.remove('complete');
         completed =  false;
     }
-    let status = completed ? 'complete' : 'incomnplete';
+    let status = completed ? 'complete' : 'incomplete';
     
     // update array & local storage
     tasks.forEach(task=>{
         if(task.content === taskContent){
-            console.log(task.content, task.status);
             task.status = status;
         }
     });
     localStorage.setItem('tasks', JSON.stringify(tasks));
+    
+    displayTasks();
 }
 
 function deleteTask(){
@@ -144,3 +146,19 @@ function deleteTask(){
     // update html
     displayTasks();
 }
+
+
+
+// update task count
+function showCount(){
+    const taskCounterSpan = document.querySelector('.num-items');
+
+    let count = 0;
+    tasks.filter(task=> task.status === 'incomplete').forEach(task =>{
+        count++;
+        console.log(count);
+    });
+    console.log(count);
+    // display count
+    taskCounterSpan.innerHTML = count;
+} 
