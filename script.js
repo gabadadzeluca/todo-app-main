@@ -72,7 +72,6 @@ displayTasks(JSON.parse(localStorage.getItem('tasks')));
 
 showCount();
 function displayTasks(taskList){
-    // const taskList  =  JSON.parse(localStorage.getItem('tasks'));
     const container = document.querySelector('.task-list');
    
     // Clear the container element
@@ -173,6 +172,14 @@ function displayActiveTasks(){
 function displayCompletedTasks(){
     const completedTasks = JSON.parse(localStorage.getItem('tasks')).filter(task=>task.status == 'complete');
     displayTasks(completedTasks);
+    // display a text if there're no completed tasks
+    if(completedTasks.length == 0){
+        const container = document.querySelector('.task-list');
+        const noTasksText = document.createElement('div');
+        noTasksText.classList.add('no-tasks-text');
+        noTasksText.innerText = "No completed tasks yet";
+        container.appendChild(noTasksText);
+    }
 
 }
 
