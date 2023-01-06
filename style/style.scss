@@ -186,7 +186,7 @@ input[type="textarea"]:focus{
         height: 1.2rem;
         background-image: url("../images/icon-cross.svg");
         background-size: contain;
-        display: none;
+        display: block;
     }
     .task-delete-btn:hover{
         cursor: pointer;
@@ -318,6 +318,12 @@ footer{
         }
 
     }
+    .task{
+        .task-delete-btn{
+            display: none;
+        }
+    }
+    
     .wrapper{
         margin-top: 7rem;
         min-width: 54rem;
